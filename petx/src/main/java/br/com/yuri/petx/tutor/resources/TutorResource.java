@@ -1,5 +1,6 @@
 package br.com.yuri.petx.tutor.resources;
 
+import br.com.yuri.petx.pet.domain.Pet;
 import br.com.yuri.petx.tutor.domain.Tutor;
 import br.com.yuri.petx.tutor.service.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class TutorResource {
     private TutorService service;
 
     @PostMapping
-    public ResponseEntity<Tutor> cadastrar(Tutor pet){
-        return new ResponseEntity<>(service.cadastrar(pet), HttpStatus.CREATED);
+    public ResponseEntity<Tutor> cadastrar(@RequestBody Tutor tutor){
+        return new ResponseEntity<>(service.cadastrar(tutor), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -30,13 +31,24 @@ public class TutorResource {
         return service.buscar(cpf).map((tutor) -> new ResponseEntity<>(tutor, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/{id}/pets")
+    public ResponseEntity<List<Pet>> buscarPets(@PathVariable Integer id){
+
+        // se tutor não existe, responde não encontrado
+        if(service.buscar(id).isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(service.buscarPets(id), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Tutor> buscar(@PathVariable Integer id){
         return service.buscar(id).map((tutor) -> new ResponseEntity<>(tutor, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping
-    public ResponseEntity<Tutor> atualizar(Tutor tutor){
+    public ResponseEntity<Tutor> atualizar(@RequestBody Tutor tutor){
 
         if(service.buscar(tutor.getId()).isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

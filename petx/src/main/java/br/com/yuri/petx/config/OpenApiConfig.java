@@ -12,8 +12,8 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Título da API")
+                        .title("PetX")
                         .version("1.0.0")
-                        .description("Descrição da API"));
+                        .description("API para cadastro de Pets"));
     }
 }

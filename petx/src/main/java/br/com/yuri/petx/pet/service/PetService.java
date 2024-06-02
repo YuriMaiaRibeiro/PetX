@@ -2,6 +2,8 @@ package br.com.yuri.petx.pet.service;
 
 import br.com.yuri.petx.pet.domain.Pet;
 import br.com.yuri.petx.pet.repositories.PetRepository;
+import br.com.yuri.petx.tutor.domain.Tutor;
+import br.com.yuri.petx.tutor.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,15 @@ public class PetService {
     @Autowired
     private PetRepository repository;
 
+    @Autowired
+    private TutorRepository tutorRepository;
+
     public Pet cadastrar(Pet pet){
+
+        Tutor tutor =  pet.getTutor();
+        tutor = tutorRepository.save(tutor);
+
+        pet.setTutor(tutor);
         return repository.save(pet);
     }
 

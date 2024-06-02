@@ -1,6 +1,7 @@
 package br.com.yuri.petx.tutor.service;
 
 
+import br.com.yuri.petx.pet.domain.Pet;
 import br.com.yuri.petx.tutor.domain.Tutor;
 import br.com.yuri.petx.tutor.repositories.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,12 @@ public class TutorService {
 
     public void remover(Integer id){
         repository.deleteById(id);
+    }
+
+    public List<Pet> buscarPets(Integer id){
+
+        Tutor tutor = repository.findById(id).orElse(new Tutor());
+
+        return tutor.getPets();
     }
 }

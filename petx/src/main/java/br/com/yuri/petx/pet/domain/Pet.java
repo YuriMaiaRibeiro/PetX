@@ -27,7 +27,7 @@ public class Pet {
     @Column
     private int idade;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "id")
     private Tutor tutor;
 }
